@@ -1,10 +1,10 @@
-name: Build
+name: Debug Build
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  # push:
+    # branches: [ debug ]
+  # pull_request:
+    # branches: [ debug ]
 
   workflow_dispatch:
 
@@ -54,12 +54,12 @@ jobs:
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
-        run: haxelib run lime build Project.xml linux --app-version="4.0.0-${{ github.run_id}}"
+        run: haxelib run lime build Project.xml linux -debug --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
         uses: actions/upload-artifact@main
         with:
-          name: linuxBuild
-          path: 'export/release/linux/bin'
+          name: linuxBuild-Debug
+          path: 'export/debug/linux/bin'
   buildWindows64:
     runs-on: windows-latest
 
@@ -100,12 +100,12 @@ jobs:
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
-        run: haxelib run lime build windows --app-version="4.0.0-${{ github.run_id}}"
+        run: haxelib run lime build windows -debug --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
         uses: actions/upload-artifact@main
         with:
-          name: windows64Build
-          path: export/release/windows/bin
+          name: windows64Build-Debug
+          path: export/debug/windows/bin
   buildMacOS:
     runs-on: macos-latest
 
@@ -145,9 +145,9 @@ jobs:
       - name: Create Version Tag
         run: echo "${{github.run_id}}" > VERSION
       - name: Compile
-        run: haxelib run lime build mac --app-version="4.0.0-${{ github.run_id}}"
+        run: haxelib run lime build mac -debug --app-version="4.0.0-${{ github.run_id}}"
       - name: Publish Artifact
         uses: actions/upload-artifact@main
         with:
-          name: macOSBuild
-          path: export/release/macos/bin
+          name: macOSBuild-Debug
+          path: export/debug/macos/bin
